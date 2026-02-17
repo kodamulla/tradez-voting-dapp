@@ -245,33 +245,36 @@ document.addEventListener("DOMContentLoaded", function() {
         $(".currentYear").text(new Date().getFullYear());
 
         // Mouse Follower
-        const follower = document.querySelector(".mouse-follower .cursor-outline");
-        const dot = document.querySelector(".mouse-follower .cursor-dot");
-        window.addEventListener("mousemove", (e) => {
-            follower.animate(
-                [{
-                    opacity: 1,
-                    left: `${e.clientX}px`,
-                    top: `${e.clientY}px`,
-                    easing: "ease-in-out"
-                }], {
-                    duration: 3000,
-                    fill: "forwards"
-                }
-            );
-            dot.animate(
-                [{
-                    opacity: 1,
-                    left: `${e.clientX}px`,
-                    top: `${e.clientY}px`,
-                    easing: "ease-in-out"
-                }], {
-                    duration: 1500,
-                    fill: "forwards"
-                }
-            );
-        });
+const follower = document.querySelector(".mouse-follower .cursor-outline");
+const dot = document.querySelector(".mouse-follower .cursor-dot");
 
+window.addEventListener("mousemove", (e) => {
+    // මේ check එක අනිවාර්යයෙන්ම අවශ්‍යයි
+    if (follower && dot) { 
+        follower.animate(
+            [{
+                opacity: 1,
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`,
+                easing: "ease-in-out"
+            }], {
+                duration: 3000,
+                fill: "forwards"
+            }
+        );
+        dot.animate(
+            [{
+                opacity: 1,
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`,
+                easing: "ease-in-out"
+            }], {
+                duration: 1500,
+                fill: "forwards"
+            }
+        );
+    }
+});
 
 
         // Custom Tabs
