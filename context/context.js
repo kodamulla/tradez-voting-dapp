@@ -189,4 +189,143 @@ export const VOTER_DAPP_PROVIDER = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
-    
+    const url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+      console.log(url);
+
+      const transaction = await CONTRACT.registerVoter(_name, url);
+
+      await transaction.wait();
+
+      notifySuccess("Successfully Registered Candidate");
+      setLoader(false);
+      window.location.href = "/register-voter";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess(
+        "Registration failed, kindly connect to ellection commission"
+      );
+      console.log(error);
+    }
+  };
+
+  const APPROVE_CANDIDATE = async (address, message) => {
+    if (!address || !message) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait, approving candidate...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.approveCandidate(address, message);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully approve Candidate");
+      window.location.href = "/approve-candidate";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("approve failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
+  const APPROVE_VOTER = async (address, message) => {
+    if (!address || !message) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait, approving voter...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.approveVoter(address, message);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully aapprove voter");
+      window.location.href = "/approve-voter";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("approving failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
+  const REJECT_CANDIDATE = async (address, message) => {
+    if (!address || !message) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait, approving candidate...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.rejectCandidate(address, message);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess(" Candidate Rejected");
+      window.location.href = "/register-candidate";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("approve failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
+  const REJECT_VOTER = async (address, message) => {
+    console.log(address, message);
+    if (!address || !message) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait, approving voter...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.rejectVoter(address, message);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully Rejected");
+      window.location.href = "/register-voter";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("approving failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
+  const SET_VOTING_PREIOD = async (voteTime) => {
+    const { startTime, endTime } = voteTime;
+
+    if (!startTime || !endTime) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait...");
+    setLoader(true);
+
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
+
+    const startTimeMilliseconds = startDate.getTime();
+    const endTimeMilliseconds = endDate.getTime();
+
+    const startTimeSeconds = Math.floor(startTimeMilliseconds / 1000);
+    const endTimeSeconds = Math.floor(endTimeMilliseconds / 1000);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.setVotingPeriod(
+        startTimeSeconds,
+        endTimeSeconds
+      );
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully set voting period ");
+      window.location.href = "/";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess(
+        "set voting period failed, kindly connect to ellection commission"
+      );
+      console.log(error);
+    }
+  };
