@@ -617,4 +617,82 @@ const GIVE_VOTE = async (_candidateAddress) => {
 
         const candidates = await CONTRACT.getAllRegisteredCandidates();
         // console.log(candidates);
+ const items = await Promise.all(
+          candidates.map(
+            async ({
+              ipfs,
+              candidateAddress,
+              registerId,
+              status,
+              voteCount,
+              message,
+            }) => {
+              const {
+                data: {
+                  _name,
+                  _nominationForm,
+                  _affidavit,
+                  _criminalAntecedents,
+                  _assetsAndLiabilities,
+                  _educationalQualifications,
+                  _electoralRollEntry,
+                  _securityDeposit,
+                  _partyAffiliation,
+                  _oathOrAffirmation,
+                  _photographs,
+                  _proofOfAge,
+                  _proofOfAddress,
+                  _panCardDetails,
+                  _voterIdCardDetails,
+                  image,
+                  pdf,
+                },
+              } = await axios.get(ipfs, {});
 
+              return {
+                address: candidateAddress,
+                registerId: registerId?.toNumber(),
+                status,
+                voteCount: voteCount?.toNumber(),
+                ipfs,
+                message,
+                _name,
+                _nominationForm,
+                _affidavit,
+                _criminalAntecedents,
+                _assetsAndLiabilities,
+                _educationalQualifications,
+                _electoralRollEntry,
+                _securityDeposit,
+                _partyAffiliation,
+                _oathOrAffirmation,
+                _photographs,
+                _proofOfAge,
+                _proofOfAddress,
+                _panCardDetails,
+                _voterIdCardDetails,
+                image,
+                pdf,
+              };
+            }
+          )
+        );
+
+        return items;
+      }
+    } catch (error) {
+      notifyError("Something weng wrong ");
+      console.log(error);
+    }
+  };
+
+  const GET_REGISTER_VOTERS = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+
+      setAddress(userAddress);
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+
+        const candidates = await CONTRACT.getAllRegisteredVoters();
+        // console.log(candidates);
