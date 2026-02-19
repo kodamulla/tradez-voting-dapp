@@ -696,3 +696,293 @@ const GIVE_VOTE = async (_candidateAddress) => {
 
         const candidates = await CONTRACT.getAllRegisteredVoters();
         // console.log(candidates);
+
+        const items = await Promise.all(
+          candidates.map(
+            async ({
+              ipfs,
+              voterAddress,
+              registerId,
+              status,
+              hasVoted,
+              message,
+            }) => {
+              const {
+                data: {
+                  _name,
+                  _voterAddress,
+                  _photograph,
+                  _parentOrSpouseName,
+                  _gender,
+                  _dobOrAge,
+                  _addressDetails,
+                  _epicNumber,
+                  _partNumberAndName,
+                  _assemblyConstituencyNumberAndName,
+                  _issuingAuthoritySignature,
+                  _hologramAndBarcode,
+                  image,
+                  pdf,
+                },
+              } = await axios.get(ipfs, {});
+
+              return {
+                address: voterAddress,
+                registerId: registerId?.toNumber(),
+                status,
+                hasVoted,
+                message,
+                ipfs,
+                _name,
+                _voterAddress,
+                _photograph,
+                _parentOrSpouseName,
+                _gender,
+                _dobOrAge,
+                _addressDetails,
+                _epicNumber,
+                _partNumberAndName,
+                _assemblyConstituencyNumberAndName,
+                _issuingAuthoritySignature,
+                _hologramAndBarcode,
+                image,
+                pdf,
+              };
+            }
+          )
+        );
+
+        return items;
+      }
+    } catch (error) {
+      notifyError("Something weng wrong ");
+      console.log(error);
+    }
+  };
+
+  const ALL_VOTERS_VOTED = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+
+      setAddress(userAddress);
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+
+        const candidates = await CONTRACT.getAllVotersWhoVoted();
+        // console.log(candidates);
+
+        const items = await Promise.all(
+          candidates.map(
+            async ({
+              ipfs,
+              voterAddress,
+              registerId,
+              status,
+              hasVoted,
+              message,
+            }) => {
+              const {
+                data: {
+                  _name,
+                  _voterAddress,
+                  _photograph,
+                  _parentOrSpouseName,
+                  _gender,
+                  _dobOrAge,
+                  _addressDetails,
+                  _epicNumber,
+                  _partNumberAndName,
+                  _assemblyConstituencyNumberAndName,
+                  _issuingAuthoritySignature,
+                  _hologramAndBarcode,
+                  image,
+                  pdf,
+                },
+              } = await axios.get(ipfs, {});
+
+              return {
+                address: voterAddress,
+                registerId: registerId?.toNumber(),
+                status,
+                hasVoted,
+                message,
+                ipfs,
+                _name,
+                _voterAddress,
+                _photograph,
+                _parentOrSpouseName,
+                _gender,
+                _dobOrAge,
+                _addressDetails,
+                _epicNumber,
+                _partNumberAndName,
+                _assemblyConstituencyNumberAndName,
+                _issuingAuthoritySignature,
+                _hologramAndBarcode,
+                image,
+                pdf,
+              };
+            }
+          )
+        );
+
+        //CHECK CURRENT USER VOTING STATE
+        items?.filter((user) =>
+          user.address.toLowerCase() == userAddress
+            ? setCheckVote(true)
+            : setCheckVote(false)
+        );
+
+        return items;
+      }
+    } catch (error) {
+      notifyError("Something weng wrong ");
+      console.log(error);
+    }
+  };
+
+  const HIGHEST_VOTED_CANDIDATE = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+      setAddress(userAddress);
+
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+        const candidates = await CONTRACT.getCurrentVotingStatus();
+
+        console.log(candidates);
+
+        const zeroAddress = "0x0000000000000000000000000000000000000000";
+        if (candidates?.candidateAddress.toLowerCase() === zeroAddress) return;
+
+        const {
+          data: {
+            _name,
+            _nominationForm,
+            _affidavit,
+            _criminalAntecedents,
+            _assetsAndLiabilities,
+            _educationalQualifications,
+            _electoralRollEntry,
+            _securityDeposit,
+            _partyAffiliation,
+            _oathOrAffirmation,
+            _photographs,
+            _proofOfAge,
+            _proofOfAddress,
+            _panCardDetails,
+            _voterIdCardDetails,
+            image,
+            pdf,
+          },
+        } = await axios.get(candidates?.ipfs);
+
+        const candidateData = {
+          address: candidates?.candidateAddress,
+          registerId: candidates?.registerId?.toNumber(),
+          status: candidates?.status,
+          voteCount: candidates?.voteCount?.toNumber(),
+          ipfs: candidates?.ipfs,
+          message: candidates?.message,
+          _name,
+          _nominationForm,
+          _affidavit,
+          _criminalAntecedents,
+          _assetsAndLiabilities,
+          _educationalQualifications,
+          _electoralRollEntry,
+          _securityDeposit,
+          _partyAffiliation,
+          _oathOrAffirmation,
+          _photographs,
+          _proofOfAge,
+          _proofOfAddress,
+          _panCardDetails,
+          _voterIdCardDetails,
+          image,
+          pdf,
+        };
+
+        console.log(candidateData);
+
+        return candidateData;
+      }
+    } catch (error) {
+      notifyError("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  const WINNER = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+
+      setAddress(userAddress);
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+
+        const candidates = await CONTRACT.getWinningCandidate();
+        // console.log(candidates);
+
+        const items = await Promise.all(
+          candidates.map(
+            async ({
+              ipfs,
+              voterAddress,
+              registerId,
+              status,
+              hasVoted,
+              message,
+            }) => {
+              const {
+                data: {
+                  _name,
+                  _voterAddress,
+                  _photograph,
+                  _parentOrSpouseName,
+                  _gender,
+                  _dobOrAge,
+                  _addressDetails,
+                  _epicNumber,
+                  _partNumberAndName,
+                  _assemblyConstituencyNumberAndName,
+                  _issuingAuthoritySignature,
+                  _hologramAndBarcode,
+                  image,
+                  pdf,
+                },
+              } = await axios.get(ipfs, {});
+
+              return {
+                voterAddress,
+                registerId: registerId?.toNumber(),
+                status,
+                hasVoted,
+                message,
+                ipfs,
+                _name,
+                _voterAddress,
+                _photograph,
+                _parentOrSpouseName,
+                _gender,
+                _dobOrAge,
+                _addressDetails,
+                _epicNumber,
+                _partNumberAndName,
+                _assemblyConstituencyNumberAndName,
+                _issuingAuthoritySignature,
+                _hologramAndBarcode,
+                image,
+                pdf,
+              };
+            }
+          )
+        );
+
+        return items;
+      }
+    } catch (error) {
+      notifyError("Something weng wrong ");
+      console.log(error);
+    }
+  };
