@@ -139,3 +139,21 @@ export const connectWallet = async () => {
   }
 };
 //CONTRACT
+
+//---FETCHING SMART CONTRACT
+const fetchContract = (address, abi, signer) =>
+  new ethers.Contract(address, abi, signer);
+
+export const VOTING_CONTRACT = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+    return contract;
+  } catch (error) {
+    console.log("Something went wrong while connecting with contract", error);
+  }
+};
