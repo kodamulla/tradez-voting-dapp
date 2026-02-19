@@ -545,5 +545,25 @@ const CHANGE_OWNER = async (_newOwner) => {
       console.log(error);
     }
   };
+const GIVE_VOTE = async (_candidateAddress) => {
+    if (!_candidateAddress) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.vote(_candidateAddress);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully voted ");
+      window.location.href = "/approve-candidate";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("vote failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
 
 
