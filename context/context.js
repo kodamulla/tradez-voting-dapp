@@ -986,3 +986,63 @@ const GIVE_VOTE = async (_candidateAddress) => {
       console.log(error);
     }
   };
+
+  const GET_SINGLE_VOTER = async (address) => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+
+      setAddress(userAddress);
+      if (!address) return notifyError("Kindly provide address");
+
+      const CONTRACT = await VOTING_CONTRACT();
+
+      const data = await CONTRACT.getVoter(address);
+      const {
+        data: {
+          _name,
+          _voterAddress,
+          _photograph,
+          _parentOrSpouseName,
+          _gender,
+          _dobOrAge,
+          _addressDetails,
+          _epicNumber,
+          _partNumberAndName,
+          _assemblyConstituencyNumberAndName,
+          _issuingAuthoritySignature,
+          _hologramAndBarcode,
+          image,
+          pdf,
+        },
+      } = await axios.get(data?.ipfs, {});
+
+      const voter = {
+        address: data?.voterAddress,
+        registerId: data?.registerId.toNumber(),
+        ipfs: data?.ipfs,
+        status: data?.status,
+        hasVoted: data?.hasVoted,
+        message: data?.message,
+        _name,
+        _voterAddress,
+        _photograph,
+        _parentOrSpouseName,
+        _gender,
+        _dobOrAge,
+        _addressDetails,
+        _epicNumber,
+        _partNumberAndName,
+        _assemblyConstituencyNumberAndName,
+        _issuingAuthoritySignature,
+        _hologramAndBarcode,
+        image,
+        pdf,
+      };
+
+      return voter;
+    } catch (error) {
+      notifySuccess("Failed to get data, kindly reload page");
+      console.log(error);
+    }
+  };
+
