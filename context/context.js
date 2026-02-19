@@ -505,4 +505,45 @@ export const VOTER_DAPP_PROVIDER = ({ children }) => {
       console.log(error);
     }
   };
+const CHANGE_OWNER = async (_newOwner) => {
+    if (!_newOwner) return notifyError("Data Is Missing");
+    notifySuccess("kindly wait...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.changeOwner(_newOwner);
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully updated ");
+      window.location.href = "/";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("updated failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
+  const RESET_CONTRACT = async () => {
+    notifySuccess("kindly wait...");
+    setLoader(true);
+
+    const CONTRACT = await VOTING_CONTRACT();
+
+    try {
+      const transaction = await CONTRACT.resetContract();
+
+      await transaction.wait();
+      setLoader(false);
+      notifySuccess("Successfully RESET ");
+      window.location.href = "/";
+    } catch (error) {
+      setLoader(false);
+      notifySuccess("RESET failed, kindly connect to ellection commission");
+      console.log(error);
+    }
+  };
+
 
