@@ -565,5 +565,56 @@ const GIVE_VOTE = async (_candidateAddress) => {
       console.log(error);
     }
   };
+//READ DATA FUNCTIONS
+  const INITIAL_CONTRACT_DATA = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
 
+      setAddress(userAddress);
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+
+        const startDateN = await CONTRACT.startTime();
+        const endDateN = await CONTRACT.endTime();
+
+        const timestamp1 = startDateN;
+        const timestamp2 = endDateN;
+
+        const date1 = new Date(timestamp1 * 1000);
+        const date2 = new Date(timestamp2 * 1000);
+
+        const options = {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+
+        const item = {
+          startDate: date1.toLocaleDateString("en-US", options),
+          endDate: date2.toLocaleDateString("en-US", options),
+          startDateN: startDateN.toNumber(),
+          endDateN: endDateN.toNumber(),
+        };
+
+        return item;
+      }
+    } catch (error) {
+      notifyError("Something weng wrong ");
+      console.log(error);
+    }
+  };
+
+  const GET_REGISTER_CANDIDATES = async () => {
+    try {
+      const userAddress = await checkIfWalletIsConnected();
+
+      setAddress(userAddress);
+      if (userAddress) {
+        const CONTRACT = await VOTING_CONTRACT();
+
+        const candidates = await CONTRACT.getAllRegisteredCandidates();
+        // console.log(candidates);
 
