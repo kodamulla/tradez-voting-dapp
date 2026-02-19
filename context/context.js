@@ -1112,3 +1112,46 @@ const GIVE_VOTE = async (_candidateAddress) => {
     }
   };
 
+  return (
+    <VOTING_DAPP_CONTEXT.Provider
+      value={{
+        GET_SINGLE_CANDIDATE,
+        GET_SINGLE_VOTER,
+        GET_REGISTER_CANDIDATES,
+        GET_REGISTER_VOTERS,
+        HIGHEST_VOTED_CANDIDATE,
+        INITIAL_CONTRACT_DATA,
+        ALL_VOTERS_VOTED,
+        WINNER,
+        notifySuccess,
+        notifyError,
+        setLoader,
+        connectWallet,
+        address,
+        checkVote,
+        OWNER_ADDRESS,
+        setAddress,
+        loader,
+        checkIfWalletIsConnected,
+        VOTING_DAPP,
+        REGISTER_CANDIDATE,
+        REGISTER_VOTER,
+        APPROVE_VOTER,
+        APPROVE_CANDIDATE,
+        GIVE_VOTE,
+        UPDATE_CANDIDATE,
+        UPDATE_VOTER,
+        CHANGE_OWNER,
+        RESET_CONTRACT,
+        SET_VOTING_PREIOD,
+        REJECT_CANDIDATE,
+        REGISTER_VOTER,
+        REJECT_VOTER,
+      }}
+    >
+      {children}
+    </VOTING_DAPP_CONTEXT.Provider>
+  );
+};
+
+
