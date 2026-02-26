@@ -1,0 +1,38 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "E:\\tradez-voting-dapp\\contracts\\VotingOrganization.sol": {
+      "lastModificationDate": 1771314204080,
+      "contentHash": "bd21d9299cbb9b316ca3e5f59bbaeaff",
+      "sourceName": "contracts/VotingOrganization.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": []
+    }
+  }
+}
