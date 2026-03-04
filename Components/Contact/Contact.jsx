@@ -2,12 +2,12 @@ import React from "react";
 
 //INTERNAL IMPORT
 import Banner from "./Banner";
-import ContactFrom from "./ContactFrom";
+import ContactFrom from "./ContactForm";
 const Contact = () => {
   return (
     <>
       <Banner />
-      <ContactFrom />
+      <ContactForm />
     </>
   );
 };
