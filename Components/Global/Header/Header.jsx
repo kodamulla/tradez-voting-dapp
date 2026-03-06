@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 //INTERNAL IMPORT
 import Link from "./Link";
+
+//IMPORTING CONTRCT DATA
+import { VOTING_DAPP_CONTEXT } from "../../../context/context";
 const Header = () => {
+  const { connectWallet, address, setAddress, OWNER_ADDRESS } =
+    useContext(VOTING_DAPP_CONTEXT);
+
+  const clickConnect = async () => {
+    const userAddress = await connectWallet();
+    setAddress(userAddress);
+  };
+
   return (
     <header class="header-section a2-bg-0 header-section--secondary header-menu w-100">
       <div class="container d-center ">
@@ -40,171 +51,190 @@ const Header = () => {
           </div>
           <div class="nav_alt">
             <div class="right-area position-relative ms-0 d-center gap-1 gap-xl-4 d-lg-none">
-              <div class="single-item">
-                <a
-                  href="#"
-                  class="rotate_eff flex-nowrap py-1 px-2 px-xl-3 d-center gap-1 fw-bold nw1-color"
-                >
-                  {" "}
-                  Login <i class="ti ti-arrow-right fs-six-up"></i>
+              {address ? (
+                <>
+                  <div class="single-item">
+                    <a
+                      href="/voter"
+                      class="rotate_eff flex-nowrap py-1 px-2 px-xl-3 d-center gap-1 fw-bold nw1-color"
+                    >
+                      {" "}
+                      Voter <i class="ti ti-arrow-right fs-six-up"></i>
+                    </a>
+                  </div>
+                  <div class="single-item">
+                    <a
+                      href="/candidate"
+                      class="cmn-btn fw-bold py-2 px-2 px-sm-3 px-lg-4 align-items-center gap-1"
+                    >
+                      {" "}
+                      Candidate{" "}
+                      <i class="ti ti-arrow-right fw-semibold fs-six-up"></i>
+                    </a>
+                  </div>
+                </>
+              ) : (
+                <div class="single-item">
+                  <a
+                    onClick={() => clickConnect()}
+                    class="cmn-btn fw-bold py-2 px-2 px-sm-3 px-lg-4 align-items-center gap-1"
+                  >
+                    {" "}
+                    Connect Wallet{" "}
+                    <i class="ti ti-arrow-right fw-semibold fs-six-up"></i>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+          <div
+            class="collapse navbar-collapse justify-content-center"
+            id="navbar-content"
+          >
+            <ul class="navbar-nav gap-2 gap-lg-3 gap-xxl-8  align-self-center mx-auto mt-4 mt-lg-0">
+              <li class="dropdown show-dropdown">
+                <a href="/" class=" dropdown-nav active">
+                  home
                 </a>
-              </div>
+              </li>
+              <li class="dropdown show-dropdown">
+                <button
+                  type="button"
+                  aria-label="Navbar Dropdown Button"
+                  class=" dropdown-nav"
+                >
+                  Candidate
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/register-candidate">
+                      All Candidate
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/approve-candidate">
+                      Approve Candidate
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown show-dropdown">
+                <button
+                  type="button"
+                  aria-label="Navbar Dropdown Button"
+                  class=" dropdown-nav"
+                >
+                  Voter
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/register-voter">
+                      All Voters
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/approve-voter">
+                      Approve Voters
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/all-voters-voted">
+                      All Voted Voters
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              {address == OWNER_ADDRESS?.toLowerCase() && (
+                <li>
+                  <a class="dropdown-item" href="/owner">
+                    Owner
+                  </a>
+                </li>
+              )}
+              <li class="dropdown show-dropdown">
+                <button
+                  type="button"
+                  aria-label="Navbar Dropdown Button"
+                  class=" dropdown-nav"
+                >
+                  Resources
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/about">
+                      About Us
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/legal-docs">
+                      legal docs
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/contact">
+                      Contact Us
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/roadmap">
+                      roadmap
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/support">
+                      support
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/terms-conditions">
+                      terms conditions
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/privacy-policy">
+                      privacy-policy
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="right-area position-relative  ms-0 d-center gap-1 gap-xl-4 d-none d-lg-flex">
+            {address ? (
+              <>
+                <div class="single-item">
+                  <a
+                    href="/voter"
+                    class="rotate_eff flex-nowrap py-1 px-2 px-xl-3 d-center gap-1 fw-bold nw1-color"
+                  >
+                    {" "}
+                    Voter <i class="ti ti-arrow-right fs-six-up"></i>
+                  </a>
+                </div>
+                <div class="single-item">
+                  <a
+                    href="/candidate"
+                    class="cmn-btn fw-bold py-2 px-2 px-sm-3 px-lg-4 align-items-center gap-1"
+                  >
+                    {" "}
+                    Candidate{" "}
+                    <i class="ti ti-arrow-right fw-semibold fs-six-up"></i>
+                  </a>
+                </div>
+              </>
+            ) : (
               <div class="single-item">
                 <a
-                  href="#"
+                  onClick={() => clickConnect()}
                   class="cmn-btn fw-bold py-2 px-2 px-sm-3 px-lg-4 align-items-center gap-1"
                 >
                   {" "}
-                  Sign Up{" "}
+                  Connet Wallet{" "}
                   <i class="ti ti-arrow-right fw-semibold fs-six-up"></i>
                 </a>
               </div>
-            </div>
-          </div>
-          {/* <Link /> */}
-          <ul class="navbar-nav gap-2 gap-lg-3 gap-xxl-8  align-self-center mx-auto mt-4 mt-lg-0">
-            <li class="dropdown show-dropdown">
-              <a
-                href="/"
-                aria-label="Navbar Dropdown Button"
-                class=" dropdown-nav"
-              >
-                home
-              </a>
-            </li>
-            <li class="dropdown show-dropdown">
-              <button
-                type="button"
-                aria-label="Navbar Dropdown Button"
-                class=" dropdown-nav"
-              >
-                Markets
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="/market">
-                    Markets
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/market-details">
-                    Markets Details
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown show-dropdown">
-              <button
-                type="button"
-                aria-label="Navbar Dropdown Button"
-                class=" dropdown-nav"
-              >
-                Company
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="/about">
-                    about
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/team">
-                    team
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/team-details">
-                    team details
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/blog">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/blog-details">
-                    Blog Details
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/careers">
-                    careers
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/contact">
-                    contact
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a class="dropdown-item" href="/education">
-                Education
-              </a>
-            </li>
-            <li class="dropdown show-dropdown">
-              <button
-                type="button"
-                aria-label="Navbar Dropdown Button"
-                class=" dropdown-nav"
-              >
-                Resources
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="/legal-docs">
-                    legal docs
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/customers">
-                    customers
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/roadmap">
-                    roadmap
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/support">
-                    support
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/terms-conditions">
-                    terms conditions
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/privacy-policy">
-                    privacy-policy
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <div class="right-area position-relative  ms-0 d-center gap-1 gap-xl-4 d-none d-lg-flex">
-            <div class="single-item">
-              <a
-                href="/signin"
-                class="rotate_eff flex-nowrap py-1 px-2 px-xl-3 d-center gap-1 fw-bold nw1-color"
-              >
-                {" "}
-                Login <i class="ti ti-arrow-right fs-six-up"></i>
-              </a>
-            </div>
-            <div class="single-item">
-              <a
-                href="/signup"
-                class="cmn-btn fw-bold py-2 px-2 px-sm-3 px-lg-4 align-items-center gap-1"
-              >
-                {" "}
-                Sign Up <i class="ti ti-arrow-right fw-semibold fs-six-up"></i>
-              </a>
-            </div>
+            )}
           </div>
         </nav>
       </div>
