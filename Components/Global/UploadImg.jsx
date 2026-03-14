@@ -16,8 +16,7 @@ const UploadImg = ({ setLoader, notifySuccess, notifyError, setImage }) => {
           data: formData,
           maxBodyLength: "Infinity",
           headers: {
-            pinata_api_key: `12334e89c69a413613e0`,
-            pinata_secret_api_key: `02779bdb49f3443d4501cf68c761b966fddbbe41f44a0905f674b8b558acb873`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3NGQwZDUxMS1lMTg2LTQ3MzctYTgzNy0yNzYzY2JhMWI5ZmMiLCJlbWFpbCI6ImhhbnNpa2F2aXRobWEyNUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYTVlMmJjNzA1NGJkMGI4MWE2NDgiLCJzY29wZWRLZXlTZWNyZXQiOiI5YjAwOWU5YjEwMzAyMTQ1MWNkODljNDc1ZDU1YjE1Y2Q4ZDIwZTgyZDdmZTJjNzYyYmMzMDgxZWE0OTg5YzM4IiwiZXhwIjoxODA1MDA0NTgwfQ.qA6pA4jyLYT4_0SVd4CdGVvyf0rU0FGhFY3OiA8ToVs`,
             "Content-Type": "multipart/form-data",
           },
         });
